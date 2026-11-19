@@ -1,0 +1,8 @@
+# robots.txt for Small Space Style
+# Site: https://thisisparth187.github.io/small-space-style/
+# For a custom domain later, change the Sitemap line to
+#   Sitemap: https://www.yourdomain.com/sitemap-index.xml
+User-agent: *
+Allow: /
+
+Sitemap: https://thisisparth187.github.io/small-space-style/sitemap-index.xml
