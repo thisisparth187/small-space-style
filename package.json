@@ -1,0 +1,1 @@
+{"dependencies":{"@astrojs/rss":"^4.0.19","@astrojs/sitemap":"^3.7.6","astro":"^7.4.13"},"description":"Small Space Style — a free static Home Decor affiliate blog (Astro + GitHub Pages).","engines":{"node":">=22.23.4"},"name":"small-space-style","scripts":{"astro":"astro","build":"astro build","dev":"astro dev","preview":"astro preview"},"type":"module","version":"0.1.0"}
