@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../consts';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<BaseLayout
+  title="All Home Decor Guides"
+  description="Every small-space and rental home decor buying guide: sofas, rugs, lighting, storage, wall art and rooms on a budget."
+>
+  <section class="page">
+    <div class="wrap">
+      <div class="page-head">
+        <h1>All guides</h1>
+        <p>
+          Buying guides for small living rooms and rentals — measurements in
+          inches, prices in dollars, and honest picks.
+        </p>
+      </div>
+      <ul class="post-list">
+        {
+          posts.map((post) => (
+            <li class="post-card">
+              <h2>
+                <a href={url(`/blog/${post.id}/`)}>{post.data.title}</a>
+              </h2>
+              <p>{post.data.description}</p>
+              <p class="meta">
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+                {post.data.tags.length > 0 && <> · {post.data.tags.join(', ')}</>}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
