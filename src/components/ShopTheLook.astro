@@ -1,0 +1,190 @@
+---
+/**
+ * ShopTheLook — the visual-first post template.
+ * Every post: AI room header (in PostLayout) -> product cards -> misc decor.
+ * - The whole product image IS the link, plus a Shop Now button (same link).
+ * - Photos are style references, not the exact retailer product — the note
+ *   below the grid says so, and prices are example ranges to verify.
+ * - `link` is a retailer search page for now. TODO: swap each link for the
+ *   real affiliate link once Awin / CJ / Impact approve the program.
+ */
+import { photoUrl } from '../consts';
+
+interface Product {
+  name: string;
+  badge?: string;
+  width: string;
+  price: string;
+  bestFor: string;
+  notFor?: string;
+  image: string;
+  retailer: string;
+  link: string;
+}
+
+interface Extra {
+  name: string;
+  price: string;
+  image: string;
+  retailer: string;
+  link: string;
+}
+
+interface Props {
+  products: Product[];
+  extras: Extra[];
+}
+
+const { products, extras } = Astro.props;
+---
+
+{products.length > 0 && (
+  <section class="shop-look" aria-labelledby="shop-heading">
+    <p class="eyebrow">Shop this room</p>
+    <h2 id="shop-heading">The 7 sofas — tap a photo to shop it</h2>
+    <p class="shop-intro">
+      Every photo below is a link. Tap it, or the <strong>Shop Now</strong> button,
+      to see similar pieces at the retailer.
+    </p>
+    <div class="product-grid">
+      {products.map((product, i) => (
+        <article class="product-card">
+          <a
+            class="product-photo"
+            href={product.link}
+            target="_blank"
+            rel="sponsored noopener"
+            aria-label={`Shop the ${product.name} on ${product.retailer}`}
+          >
+            <img
+              src={photoUrl(product.image, 900)}
+              width="900"
+              height="675"
+              loading={i < 2 ? 'eager' : 'lazy'}
+              alt={`${product.name} — style reference photo`}
+            />
+            {product.badge && <span class="product-badge">{product.badge}</span>}
+          </a>
+          <div class="product-body">
+            <h3>
+              <a href={product.link} target="_blank" rel="sponsored noopener">
+                {i + 1}. {product.name}
+              </a>
+            </h3>
+            <p class="product-spec">
+              {product.width} · {product.price}
+            </p>
+            <p class="product-line">
+              <strong>Best for:</strong> {product.bestFor}
+            </p>
+            {product.notFor && (
+              <p class="product-line muted">
+                <strong>Skip if:</strong> {product.notFor}
+              </p>
+            )}
+            <a
+              class="shop-now"
+              href={product.link}
+              target="_blank"
+              rel="sponsored noopener"
+            >
+              Shop Now — {product.retailer} ↗
+            </a>
+            <p class="product-fine">Style photo — check the retailer page for the exact item &amp; price.</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+)}
+
+{extras.length > 0 && (
+  <section class="finish-look" aria-labelledby="finish-heading">
+    <p class="eyebrow">Finish the look</p>
+    <h2 id="finish-heading">Small things that make the room feel done</h2>
+    <p class="shop-intro">
+      The sofa is the big buy — these are the cheap pieces that make it look
+      styled instead of empty.
+    </p>
+    <div class="extras-grid">
+      {extras.map((extra) => (
+        <article class="extra-card">
+          <a
+            class="extra-photo"
+            href={extra.link}
+            target="_blank"
+            rel="sponsored noopener"
+            aria-label={`Shop ${extra.name} on ${extra.retailer}`}
+          >
+            <img
+              src={photoUrl(extra.image, 600)}
+              width="600"
+              height="450"
+              loading="lazy"
+              alt={`${extra.name} — style reference photo`}
+            />
+          </a>
+          <div class="extra-body">
+            <h3>
+              <a href={extra.link} target="_blank" rel="sponsored noopener">
+                {extra.name}
+              </a>
+            </h3>
+            <p class="product-spec">{extra.price}</p>
+            <a
+              class="shop-now small"
+              href={extra.link}
+              target="_blank"
+              rel="sponsored noopener"
+            >
+              Shop Now — {extra.retailer} ↗
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="shop-note">
+      Photos are style references, not the exact retailer products. Prices are
+      example ranges — always check the retailer page before you buy. Links go
+      to retailer search pages until affiliate links are live.
+    </p>
+  </section>
+)}
+
+<style>
+  .shop-look, .finish-look { margin: 3.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .shop-look h2, .finish-look h2 { margin: 0.4rem 0 0.5rem; }
+  .shop-intro { color: var(--muted); margin-bottom: 1.5rem; }
+  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .product-card, .extra-card { background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; box-shadow: 0 2px 12px rgba(42, 38, 34, 0.06); display: flex; flex-direction: column; }
+  .product-card:first-child { grid-column: 1 / -1; }
+  .product-photo, .extra-photo { display: block; position: relative; }
+  .product-photo img, .extra-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .product-photo { aspect-ratio: 4 / 3; }
+  .product-card:first-child .product-photo { aspect-ratio: 16 / 8; }
+  .extra-photo { aspect-ratio: 4 / 3; }
+  .product-photo:hover img, .extra-photo:hover img { opacity: 0.92; }
+  .product-badge { position: absolute; top: 0.75rem; left: 0.75rem; background: var(--clay); color: #fff; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.35em 0.8em; border-radius: 999px; }
+  .product-body, .extra-body { padding: 1.1rem 1.2rem 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
+  .product-body h3, .extra-body h3 { font-size: 1.35rem; margin: 0; }
+  .product-body h3 a, .extra-body h3 a { text-decoration: none; }
+  .product-body h3 a:hover, .extra-body h3 a:hover { color: var(--clay); }
+  .product-spec { color: var(--ink); font-weight: 600; font-size: 0.95rem; margin: 0; }
+  .product-line { margin: 0; font-size: 0.95rem; }
+  .product-line.muted { color: var(--muted); }
+  .shop-now { display: inline-flex; align-items: center; justify-content: center; margin-top: auto; padding-top: 0.6rem; min-height: 44px; padding: 0.65rem 1.15rem; border-radius: 999px; background: var(--clay); color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background-color 160ms ease, transform 160ms ease; }
+  .shop-now:hover { color: #fff; background: #a85d3e; transform: translateY(-1px); }
+  .shop-now.small { min-height: 40px; padding: 0.5rem 1rem; font-size: 0.88rem; }
+  .product-fine { font-size: 0.78rem; color: var(--muted); margin: 0.2rem 0 0; }
+  .extras-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .extra-body h3 { font-size: 1.1rem; }
+  .shop-note { font-size: 0.85rem; color: var(--muted); margin-top: 1.25rem; }
+  @media (max-width: 700px) {
+    .product-grid { grid-template-columns: 1fr; }
+    .product-card:first-child .product-photo { aspect-ratio: 4 / 3; }
+    .extras-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 420px) {
+    .extras-grid { grid-template-columns: 1fr; }
+  }
+</style>
