@@ -1,6 +1,8 @@
 ---
 title: "Entryway under $200: the Etsy + Target edit"
 description: "A complete entryway for under $200 — mirror, hooks, tray and rug from Etsy and Target, with exact measurements for narrow halls."
+heroImage: "photo-1616486338812-3dadae4b4ace"
+heroCredit: "Spacejoy"
 pubDate: 2026-11-23
 tags: ["entryway", "budget", "etsy"]
 draft: true

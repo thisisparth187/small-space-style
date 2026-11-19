@@ -1,84 +1,23 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_DESCRIPTION, SITE_TITLE, url } from '../consts';
-
-const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-const latest = posts.slice(0, 6);
-
-const orgJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: SITE_TITLE,
-  description: SITE_DESCRIPTION,
-  url: 'https://thisisparth187.github.io/small-space-style/',
-};
+import PostCard from '../components/PostCard.astro';
+import CategoryTiles from '../components/CategoryTiles.astro';
+import { photoUrl, SITE_DESCRIPTION, SITE_TITLE, url } from '../consts';
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const orgJsonLd = { '@context':'https://schema.org', '@type':'Organization', name:SITE_TITLE, description:SITE_DESCRIPTION, url:'https://thisisparth187.github.io/small-space-style/' };
+const hero = 'photo-1484101403633-562f891dc89a';
 ---
-
-<BaseLayout
-  title={SITE_TITLE}
-  description={SITE_DESCRIPTION}
-  animateHero
-  jsonLd={orgJsonLd}
->
-  <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow">Small spaces · Rentals · Honest picks</p>
-      <h1>Houses of light, made to fit a small room.</h1>
-      <p>
-        Home decor buying guides for small living rooms and rentals — sofas that
-        actually fit through the door, upgrades that need no drilling, and rooms
-        put together on a real budget. No face, no fluff, just measurements.
-      </p>
-      <a class="cta" href={url('/blog/')}>Read the guides →</a>
-    </div>
-  </section>
-
-  <section class="page">
-    <div class="wrap">
-      <h2>Start here: small spaces &amp; rentals</h2>
-      <p>
-        This blog is for one reader: someone in a small apartment or a rented
-        home who wants it to feel finished — without buying furniture that
-        doesn't fit, drilling holes in a wall they don't own, or spending
-        furniture-store money. Every guide gives real measurements in inches
-        and feet first, prices in dollars, and says who a pick is
-        <em>not</em> for. That honesty is the whole point.
-      </p>
-      <p>
-        <strong>How this site earns:</strong> some links are affiliate links.
-        If you buy through them, I may earn a commission at no extra cost to
-        you. It never changes what I recommend — the picks are chosen first,
-        the links come second.
-      </p>
-
-      <h2>Latest guides</h2>
-      {
-        latest.length === 0 ? (
-          <p>Guides are on the way — the first one is being written now.</p>
-        ) : (
-          <ul class="post-list">
-            {latest.map((post) => (
-              <li class="post-card">
-                <h3>
-                  <a href={url(`/blog/${post.id}/`)}>{post.data.title}</a>
-                </h3>
-                <p>{post.data.description}</p>
-                <p class="meta">
-                  {post.data.pubDate.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )
-      }
-      <p><a href={url('/blog/')}>Browse all guides →</a></p>
-    </div>
-  </section>
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} animateHero jsonLd={orgJsonLd}>
+  <section class="home-hero" data-enter><img src={photoUrl(hero, 1400)} srcset={`${photoUrl(hero,900)} 900w, ${photoUrl(hero,1400)} 1400w, ${photoUrl(hero,2000)} 2000w`} sizes="100vw" width="2000" height="1250" fetchpriority="high" alt="Sunlit small apartment living room with a compact sofa, warm wood and a woven rug" /><div class="hero-shade"></div><div class="wrap hero-content"><p class="eyebrow">Small spaces · Rental living · Useful picks</p><h1>Make room for <em>living.</em></h1><div class="hero-bottom"><p>Buying guides for renters who want a home that fits the way they live.</p><a class="button" href={url('/blog/')}>Read the guides</a></div><span class="photo-caption">Photo: Sidekix Media / Unsplash</span></div></section>
+  <section class="home-section room-section"><div class="wrap"><div class="section-head"><p class="eyebrow">Browse by room</p><h2>Shop by room</h2></div><CategoryTiles /></div></section>
+  <section class="home-section latest-section"><div class="wrap"><div class="section-head"><p class="eyebrow">The latest notes</p><h2>Latest guides</h2></div><div class="latest-grid">{posts.slice(0,6).map((post,index) => <PostCard post={post} featured={index === 0} />)}</div><a class="text-link" href={url('/blog/')}>See all guides</a></div></section>
+  <section class="trust-section"><div class="wrap trust-grid"><div><p class="eyebrow">How to use these picks</p><h2>Measure first. Buy second.</h2></div><div class="trust-points"><p><strong>Inches before adjectives.</strong><br />Widths, depths and clearances come first.</p><p><strong>Dollars, not vague budgets.</strong><br />Prices are checked on the retailer page before publishing.</p><p><strong>A limit with every pick.</strong><br />Each guide says who should keep looking.</p></div><p class="affiliate-note">Some links are affiliate links. They help fund the research at no extra cost to you. <a href={url('/disclosure/')}>Read the disclosure.</a></p></div></section>
 </BaseLayout>
+<style>
+  .home-hero { position:relative; min-height:calc(100svh - 78px); display:flex; align-items:flex-end; overflow:hidden; color:#fff; background:var(--ink); } .home-hero > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; } .hero-shade { position:absolute; inset:0; background:linear-gradient(180deg,rgba(42,38,34,.04) 20%,rgba(42,38,34,.78) 100%); } .hero-content { position:relative; z-index:1; padding-top:8rem; padding-bottom:3rem; } .home-hero .eyebrow { color:#fff; } .home-hero h1 { max-width:700px; margin:.6rem 0 2rem; color:#fff; } .home-hero h1 em { color:#f4d8c8; font-style:italic; } .hero-bottom { display:flex; align-items:end; justify-content:space-between; gap:2rem; max-width:760px; } .hero-bottom p { max-width:380px; margin:0; font-size:1.1rem; } .photo-caption { display:block; margin-top:1rem; font-size:.72rem; color:rgba(255,255,255,.74); }
+  .home-section { padding:4rem 0; } .room-section { background:var(--surface); } .latest-section { background:var(--bg); } .section-head { margin-bottom:2rem; } .section-head h2 { margin-top:.5rem; } .latest-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; } .latest-grid .featured { grid-column:span 2; grid-row:span 2; } .text-link { display:inline-block; margin-top:2rem; color:var(--clay); font-weight:600; }
+  .trust-section { padding:4rem 0; background:var(--tint); } .trust-grid { display:grid; grid-template-columns:1fr 1.3fr; gap:3rem; } .trust-points { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; } .trust-points p { margin:0; font-size:.94rem; } .trust-points strong { font-family:var(--serif); font-size:1.3rem; } .affiliate-note { grid-column:2; margin:0; color:var(--muted); font-size:.84rem; } .affiliate-note a { color:var(--clay); }
+  @media (max-width:800px) { .home-hero { min-height:calc(100svh - 68px); } .hero-bottom,.trust-grid { display:block; } .hero-bottom p { margin-bottom:1.25rem; } .hero-bottom .button { width:max-content; } .trust-points { margin-top:2rem; grid-template-columns:1fr; gap:1rem; } .affiliate-note { margin-top:2rem; } .latest-grid { grid-template-columns:repeat(2,1fr); } .latest-grid .featured { grid-column:span 2; } }
+  @media (max-width:520px) { .home-section,.trust-section { padding:2.5rem 0; } .hero-content { padding-bottom:2rem; } .home-hero h1 { font-size:clamp(3.2rem,15vw,5rem); } .hero-bottom .button { width:100%; } .latest-grid { grid-template-columns:1fr; } .latest-grid .featured { grid-column:auto; } }
+</style>

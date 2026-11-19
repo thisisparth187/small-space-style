@@ -1,6 +1,8 @@
 ---
 title: "Warm minimal bedroom: shop the look at 3 budgets"
 description: "A warm minimal bedroom at 3 budgets — the same calm look for under $300, $700 and $1,500, with a shopping list for each."
+heroImage: "photo-1618220179428-22790b461013"
+heroCredit: "Jonathan Borba"
 pubDate: 2026-11-27
 tags: ["bedroom", "minimal", "budget"]
 draft: true

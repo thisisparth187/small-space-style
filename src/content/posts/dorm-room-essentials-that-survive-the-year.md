@@ -1,6 +1,8 @@
 ---
 title: "Dorm room essentials that survive the year"
 description: "Dorm room essentials that survive the year — the storage, lighting and bedding that actually last past September."
+heroImage: "photo-1586023492125-27b2c045efd7"
+heroCredit: "Spacejoy"
 pubDate: 2026-12-07
 tags: ["dorm", "budget", "small spaces"]
 draft: true

@@ -1,46 +1,18 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { url } from '../../consts';
-
-const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+import PostCard from '../../components/PostCard.astro';
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))].slice(0,8);
 ---
-
-<BaseLayout
-  title="All Home Decor Guides"
-  description="Every small-space and rental home decor buying guide: sofas, rugs, lighting, storage, wall art and rooms on a budget."
->
-  <section class="page">
-    <div class="wrap">
-      <div class="page-head">
-        <h1>All guides</h1>
-        <p>
-          Buying guides for small living rooms and rentals — measurements in
-          inches, prices in dollars, and honest picks.
-        </p>
-      </div>
-      <ul class="post-list">
-        {
-          posts.map((post) => (
-            <li class="post-card">
-              <h2>
-                <a href={url(`/blog/${post.id}/`)}>{post.data.title}</a>
-              </h2>
-              <p>{post.data.description}</p>
-              <p class="meta">
-                {post.data.pubDate.toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-                {post.data.tags.length > 0 && <> · {post.data.tags.join(', ')}</>}
-              </p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
+<BaseLayout title="Home decor guides for small spaces" description="Small-space and rental home decor buying guides with measurements in inches, prices in dollars and a clear best-for note.">
+  <section class="blog-head"><div class="wrap"><p class="eyebrow">The reading room</p><h1>Guides for rooms<br /><em>that do more.</em></h1><p>Buying advice for small apartments, rentals and the furniture that has to earn its floor space.</p><div class="filters" aria-label="Guide topics"><button class="filter active" type="button" data-filter="all">All guides</button>{tags.map((tag) => <button class="filter" type="button" data-filter={tag}>{tag}</button>)}</div></div></section>
+  <section class="blog-list"><div class="wrap"><div class="blog-grid">{posts.map((post) => <PostCard post={post} />)}</div></div></section>
 </BaseLayout>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((button) => button.addEventListener('click', () => { const filter = button.dataset.filter ?? 'all'; document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((item) => item.classList.toggle('active', item === button)); document.querySelectorAll<HTMLElement>('.post-card').forEach((card) => { const tags = card.dataset.tags?.split('|') ?? []; card.hidden = filter !== 'all' && !tags.includes(filter); }); }));
+</script>
+<style>
+  .blog-head { padding:5rem 0 3rem; background:var(--tint); } .blog-head h1 { margin:.6rem 0 1rem; } .blog-head h1 em { color:var(--clay); font-style:italic; } .blog-head > .wrap > p:not(.eyebrow) { max-width:550px; color:var(--muted); font-size:1.15rem; } .filters { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:2rem; } .filter { padding:.5rem .9rem; border:1px solid var(--line); border-radius:999px; background:#fff; color:var(--ink); font:500 .85rem var(--sans); cursor:pointer; } .filter:hover,.filter.active { border-color:var(--clay); color:var(--clay); }
+  .blog-list { padding:4rem 0; } .blog-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.25rem; } @media (max-width:620px) { .blog-head { padding:3.5rem 0 2.5rem; } .blog-list { padding:2.5rem 0; } .blog-grid { grid-template-columns:1fr; } }
+</style>

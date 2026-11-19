@@ -1,6 +1,8 @@
 ---
 title: "Small dining nook: table + 4 chairs under $600"
 description: "A small dining nook for under $600 — table and 4 chairs that fit a 6-foot wall, with exact sizes and clearance to measure first."
+heroImage: "photo-1617104678098-de229db51175"
+heroCredit: "R ARCHITECTURE"
 pubDate: 2026-12-03
 tags: ["dining", "small spaces", "budget"]
 draft: true

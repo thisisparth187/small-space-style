@@ -1,6 +1,8 @@
 ---
 title: "Autumn refresh under $150"
 description: "An autumn refresh for under $150 — throws, cushions, candles and a rug swap that make a small room feel like autumn."
+heroImage: "photo-1600607688969-a5bfcd646154"
+heroCredit: "Spacejoy"
 pubDate: 2026-12-11
 tags: ["autumn", "seasonal", "budget"]
 draft: true

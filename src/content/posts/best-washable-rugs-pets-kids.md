@@ -1,6 +1,8 @@
 ---
 title: "Best washable rugs for pets and kids — compared"
 description: "Washable rugs compared for pets and kids: pile, backing, sizes and what actually survives the washing machine."
+heroImage: "photo-1595526114035-0d45ed16cfbf"
+heroCredit: "Sidekix Media"
 pubDate: 2026-11-25
 tags: ["rugs", "pets", "kids"]
 draft: true

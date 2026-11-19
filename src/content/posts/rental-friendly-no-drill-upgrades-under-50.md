@@ -1,6 +1,8 @@
 ---
 title: "Rental-friendly: 12 no-drill upgrades under $50"
 description: "12 renter-friendly home upgrades under $50 — no drilling, no damage, deposit-safe. Command strips, peel-and-stick and swaps."
+heroImage: "photo-1556228453-efd6c1ff04f6"
+heroCredit: "Spacejoy"
 pubDate: 2026-11-21
 tags: ["rentals", "no-drill", "budget"]
 draft: true

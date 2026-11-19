@@ -1,6 +1,8 @@
 ---
 title: "9 storage finds for apartments with no closets"
 description: "9 storage finds for apartments with no closets — freestanding wardrobes, under-bed boxes and over-door racks that renters can use."
+heroImage: "photo-1600585154340-be6161a56a0c"
+heroCredit: "Jonathan Borba"
 pubDate: 2026-11-29
 tags: ["storage", "apartments", "small spaces"]
 draft: true

@@ -1,6 +1,8 @@
 ---
 title: "7 sofas that fit small living rooms — exact widths in inches"
 description: "7 small sofas that actually fit a small living room, with exact widths in inches, seat depths and who each one is NOT for."
+heroImage: "photo-1549490349-8643362247b5"
+heroCredit: "R ARCHITECTURE"
 pubDate: 2026-11-19
 tags: ["small living rooms", "sofas", "apartment furniture"]
 draft: false

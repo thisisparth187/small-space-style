@@ -1,6 +1,8 @@
 ---
 title: "Lighting without an electrician: plug-in sconces compared"
 description: "Plug-in wall sconces compared — no electrician, no wiring, renter-friendly. Brightness, cord length and where each one works."
+heroImage: "photo-1600210492486-724fe5c67fb0"
+heroCredit: "R ARCHITECTURE"
 pubDate: 2026-12-05
 tags: ["lighting", "rentals", "sconces"]
 draft: true

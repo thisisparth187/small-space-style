@@ -1,6 +1,8 @@
 ---
 title: "One Kings Lane look, Target budget: a full room, two ways"
 description: "The One Kings Lane look at a Target budget — the same living room, two ways, piece by piece, with the price gap explained."
+heroImage: "photo-1600607687920-4e2a09cf159d"
+heroCredit: "Spacejoy"
 pubDate: 2026-12-09
 tags: ["living room", "budget", "splurge"]
 draft: true

@@ -1,0 +1,13 @@
+---
+import { photoUrl, url } from '../consts';
+interface Props { post: any; featured?: boolean; }
+const { post, featured = false } = Astro.props;
+const formatted = post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<article class:list={['post-card','linked-card',{featured}]} data-reveal data-tags={post.data.tags.join('|')}>
+  <a class="card-image photo-frame" href={url(`/blog/${post.id}/`)} aria-label={`Read ${post.data.title}`}><img src={photoUrl(post.data.heroImage, featured ? 1100 : 700)} srcset={`${photoUrl(post.data.heroImage,600)} 600w, ${photoUrl(post.data.heroImage,1100)} 1100w`} sizes={featured ? '(max-width: 800px) 100vw, 730px' : '(max-width: 620px) 100vw, 540px'} width={featured ? 1100 : 700} height={featured ? 660 : 467} loading="lazy" alt={post.data.title} /></a>
+  <div class="card-copy"><p class="tag">{post.data.tags[0] ?? 'Small spaces'}</p><h3><a href={url(`/blog/${post.id}/`)}>{post.data.title}</a></h3><p>{post.data.description}</p><time datetime={post.data.pubDate.toISOString()}>{formatted}</time></div>
+</article>
+<style>
+  .post-card { display:flex; flex-direction:column; min-width:0; border:1px solid var(--line); border-radius:18px; overflow:hidden; background:#fff; box-shadow:0 2px 12px rgba(42,38,34,.06); } .card-image { display:block; aspect-ratio:3/2; } .card-copy { padding:1.25rem 1.35rem 1.4rem; } .card-copy h3 { margin:.45rem 0 .55rem; } .card-copy h3 a { text-decoration:none; } .card-copy p:not(.tag) { margin:0 0 .9rem; color:var(--muted); font-size:.94rem; line-height:1.55; } .card-copy time { color:var(--muted); font-size:.8rem; } .featured .card-image { aspect-ratio:1.45/1; } .featured .card-copy { padding:1.5rem; } .featured h3 { font-size:clamp(1.8rem,3vw,2.8rem); }
+</style>

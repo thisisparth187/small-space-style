@@ -1,6 +1,8 @@
 ---
 title: "Printable wall art: 15 Etsy sets that look expensive"
 description: "15 printable Etsy wall art sets that look expensive — how to print, frame and hang them so they don't look like printables."
+heroImage: "photo-1600566753086-00f18fb6b3ea"
+heroCredit: "Sidekix Media"
 pubDate: 2026-12-01
 tags: ["wall art", "etsy", "printable"]
 draft: true

@@ -1,0 +1,7 @@
+---
+import { ROOM_TILES, photoUrl, url } from '../consts';
+---
+<div class="room-grid">{ROOM_TILES.map((room) => <a class="room-tile linked-card" href={url('/blog/')} data-reveal><span class="photo-frame"><img src={photoUrl(room.image,420)} srcset={`${photoUrl(room.image,420)} 420w, ${photoUrl(room.image,700)} 700w`} sizes="(max-width: 560px) 48vw, (max-width: 900px) 30vw, 210px" width="420" height="525" loading="lazy" alt={room.label} /></span><strong>{room.label}</strong><small>Browse guides</small></a>)}</div>
+<style>
+  .room-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1rem; } .room-tile { display:block; position:relative; overflow:hidden; border-radius:18px; color:#fff; background:var(--ink); text-decoration:none; } .room-tile .photo-frame { display:block; aspect-ratio:4/5; } .room-tile img { opacity:.78; } .room-tile strong,.room-tile small { position:absolute; left:1rem; right:1rem; z-index:1; text-shadow:0 1px 16px rgba(0,0,0,.55); } .room-tile strong { bottom:2rem; font-family:var(--serif); font-size:1.25rem; line-height:1.05; } .room-tile small { bottom:.8rem; font-size:.72rem; } @media (max-width:900px) { .room-grid { grid-template-columns:repeat(3,1fr); } } @media (max-width:560px) { .room-grid { grid-template-columns:repeat(2,1fr); } .room-tile:last-child { grid-column:span 2; } }
+</style>

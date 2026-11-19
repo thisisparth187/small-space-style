@@ -1,53 +1,32 @@
 ---
-/**
- * Blog post layout: disclosure notice at the top of EVERY post, then the
- * article. No animation, no extra JS — post pages stay fast.
- */
 import BaseLayout from './BaseLayout.astro';
-import { url } from '../consts';
-
-interface Props {
-  title: string;
-  description: string;
-  pubDate: Date;
-  updatedDate?: Date;
-  tags?: string[];
-}
-
-const { title, description, pubDate, updatedDate, tags = [] } = Astro.props;
-const formatted = pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+import { photoUrl, url } from '../consts';
+interface Props { title:string; description:string; pubDate:Date; updatedDate?:Date; tags?:string[]; heroImage:string; heroCredit:string; }
+const { title, description, pubDate, updatedDate, tags = [], heroImage, heroCredit } = Astro.props;
+const formatted = pubDate.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
 ---
-
 <BaseLayout title={title} description={description} type="article" pubDate={pubDate} updatedDate={updatedDate} tags={tags}>
-  <article class="prose">
-    <p class="meta">
-      <time datetime={pubDate.toISOString()}>{formatted}</time>
-      {updatedDate && (
-        <> · Updated <time datetime={updatedDate.toISOString()}>{updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time></>
-      )}
-      {tags.length > 0 && (
-        <> · {tags.map((tag) => <span class="tag">{tag}</span>)}</>
-      )}
-    </p>
-
-    <h1>{title}</h1>
-
-    <aside class="disclosure-box" aria-label="Affiliate disclosure">
-      <strong>Affiliate disclosure:</strong> This post contains affiliate links. If
-      you buy through them, I may earn a commission at no extra cost to you.
-      Read the full <a href={url('/disclosure/')}>affiliate disclosure</a>.
-    </aside>
-
-    <slot />
-
-    <hr />
-    <p class="meta">
-      Enjoyed this guide? Browse all <a href={url('/blog/')}>home decor guides</a> or
-      start with the <a href={url('/blog/7-sofas-small-living-rooms/')}>small living room sofas</a> guide.
-    </p>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+  <article class="post-shell">
+    <header class="post-hero"><div class="wrap narrow"><p class="eyebrow">{tags[0] ?? 'Small spaces'} · Guide</p><h1>{title}</h1><p class="meta"><time datetime={pubDate.toISOString()}>{formatted}</time>{updatedDate && <> · Updated <time datetime={updatedDate.toISOString()}>{updatedDate.toLocaleDateString('en-US')}</time></>}</p></div><div class="post-hero-image photo-frame"><img src={photoUrl(heroImage,1800)} width="1800" height="1125" fetchpriority="high" alt={title} /><span class="photo-caption">Photo: {heroCredit} / Unsplash</span></div></header>
+    <div class="prose">
+      <aside class="disclosure-box" aria-label="Affiliate disclosure"><strong>Affiliate disclosure:</strong> This post contains affiliate links. If you buy through them, I may earn a commission at no extra cost to you. Read the full <a href={url('/disclosure/')}>affiliate disclosure</a>.</aside>
+      <aside class="verify-note"><strong>Verify before publishing:</strong> measurements, prices and retailer links change. Check the retailer's own listing before you order.</aside>
+      <slot />
+      <section class="shop-look" aria-labelledby="shop-heading"><p class="eyebrow">A useful shortlist</p><h2 id="shop-heading">Shop the look</h2><div class="shop-grid"><div><strong>Compact sofa</strong><span>68–78 in wide · $350–$900</span><a href={url('/disclosure/')}>Link slot</a></div><div><strong>Washable rug</strong><span>5 × 7 ft · $120–$400</span><a href={url('/disclosure/')}>Link slot</a></div><div><strong>Plug-in light</strong><span>18–24 in tall · $60–$180</span><a href={url('/disclosure/')}>Link slot</a></div></div></section>
+      <hr /><a class="next-guide" href={url('/blog/')}><span>Next guide</span><strong>Browse all home decor guides</strong></a>
+    </div>
   </article>
 </BaseLayout>
+<script>
+  const progress = document.querySelector('.reading-progress span');
+  const updateProgress = () => { const max = document.documentElement.scrollHeight - window.innerHeight; if (progress) progress.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`; };
+  window.addEventListener('scroll', updateProgress, { passive: true }); updateProgress();
+  document.querySelectorAll('.prose table').forEach((table) => { if (!table.parentElement?.classList.contains('table-wrap')) { const wrap = document.createElement('div'); wrap.className = 'table-wrap'; table.parentNode?.insertBefore(wrap, table); wrap.appendChild(table); } });
+</script>
+<style>
+  .reading-progress { position:fixed; top:0; left:0; right:0; z-index:30; height:3px; background:transparent; } .reading-progress span { display:block; width:0; height:100%; background:var(--clay); }
+  .post-hero { padding:4.5rem 0 0; } .post-hero h1 { margin:.75rem 0 1.1rem; } .post-hero-image { position:relative; width:min(1120px,calc(100% - 2.5rem)); aspect-ratio:16/8; margin:3rem auto 0; border-radius:18px; } .post-hero-image img { width:100%; height:100%; object-fit:cover; } .photo-caption { position:absolute; left:1rem; bottom:.75rem; color:#fff; font-size:.72rem; text-shadow:0 1px 10px #000; }
+  .shop-look { margin:3.5rem 0 1rem; padding:2rem 0; border-top:1px solid var(--line); } .shop-look h2 { margin:.4rem 0 1.25rem; } .shop-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; } .shop-grid > div { display:flex; flex-direction:column; gap:.35rem; padding:1.2rem; border:1px solid var(--line); border-radius:18px; background:#fff; } .shop-grid strong { font-family:var(--serif); font-size:1.35rem; } .shop-grid span { color:var(--muted); font-size:.82rem; } .shop-grid a { color:var(--clay); font-size:.82rem; font-weight:600; }
+  @media (max-width:700px) { .post-hero { padding-top:3rem; } .post-hero-image { width:calc(100% - 2rem); aspect-ratio:4/3; margin-top:2rem; } .shop-grid { grid-template-columns:1fr; } }
+</style>
