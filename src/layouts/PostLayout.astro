@@ -1,0 +1,53 @@
+---
+/**
+ * Blog post layout: disclosure notice at the top of EVERY post, then the
+ * article. No animation, no extra JS — post pages stay fast.
+ */
+import BaseLayout from './BaseLayout.astro';
+import { url } from '../consts';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags?: string[];
+}
+
+const { title, description, pubDate, updatedDate, tags = [] } = Astro.props;
+const formatted = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description} type="article" pubDate={pubDate} updatedDate={updatedDate} tags={tags}>
+  <article class="prose">
+    <p class="meta">
+      <time datetime={pubDate.toISOString()}>{formatted}</time>
+      {updatedDate && (
+        <> · Updated <time datetime={updatedDate.toISOString()}>{updatedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time></>
+      )}
+      {tags.length > 0 && (
+        <> · {tags.map((tag) => <span class="tag">{tag}</span>)}</>
+      )}
+    </p>
+
+    <h1>{title}</h1>
+
+    <aside class="disclosure-box" aria-label="Affiliate disclosure">
+      <strong>Affiliate disclosure:</strong> This post contains affiliate links. If
+      you buy through them, I may earn a commission at no extra cost to you.
+      Read the full <a href={url('/disclosure/')}>affiliate disclosure</a>.
+    </aside>
+
+    <slot />
+
+    <hr />
+    <p class="meta">
+      Enjoyed this guide? Browse all <a href={url('/blog/')}>home decor guides</a> or
+      start with the <a href={url('/blog/7-sofas-small-living-rooms/')}>small living room sofas</a> guide.
+    </p>
+  </article>
+</BaseLayout>
