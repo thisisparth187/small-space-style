@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../consts';
+---
+
+<BaseLayout
+  title="About"
+  description="About Small Space Style — a small-space home decor blog for renters and apartment living, written from India for US readers."
+>
+  <section class="page">
+    <div class="wrap">
+      <h1>About</h1>
+      <p>
+        <strong>Small Space Style</strong> is a home decor blog for
+        people in small apartments and rented homes. It is written by Parth,
+        a developer based in India, for readers in the United States, the
+        United Kingdom and Australia.
+      </p>
+      <p>
+        The idea is simple: a small room can feel finished without buying
+        furniture that doesn't fit, drilling holes in a wall you don't own,
+        or spending a fortune. Every guide on this site is a buying guide,
+        not an inspiration gallery — it gives real measurements in inches
+        and feet, prices in dollars, and an honest answer to who a product
+        is <em>not</em> for.
+      </p>
+      <p>
+        There are no photos of my home here and no face on camera. The work
+        is the research: comparing sizes, materials and prices, and writing
+        it up clearly so you can decide in minutes, not hours.
+      </p>
+      <h2>How the site earns money</h2>
+      <p>
+        Some links on this site are affiliate links. If you buy through
+        them, I may earn a commission at no extra cost to you. That never
+        changes what I recommend. Read the full
+        <a href={url('/disclosure/')}> affiliate disclosure</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
